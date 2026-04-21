@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)file:///C:/Users/cj/Downloads/golf_pause_trainer.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -18,100 +18,37 @@
   .app { padding: 1.25rem; max-width: 480px; margin: 0 auto; padding-bottom: 2rem; }
   h1 { font-size: 22px; font-weight: 600; color: #1a1a18; margin-bottom: 2px; }
   .sub { font-size: 14px; color: #6b6b67; margin-bottom: 1.25rem; }
-
   .stat-row { display: flex; gap: 10px; margin-bottom: 1rem; }
   .stat { flex: 1; background: #fff; border-radius: 10px; border: 0.5px solid rgba(0,0,0,0.12); padding: 0.75rem; text-align: center; }
   .stat .n { font-size: 22px; font-weight: 600; color: #1a1a18; }
   .stat .l { font-size: 11px; color: #888885; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
-
-  .status-box {
-    background: #fff;
-    border: 0.5px solid rgba(0,0,0,0.12);
-    border-radius: 14px;
-    padding: 1.5rem;
-    text-align: center;
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.75rem;
-  }
+  .status-box { background: #fff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 14px; padding: 1.5rem; text-align: center; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
   .cue-label { font-size: 38px; font-weight: 600; color: #1a1a18; letter-spacing: 0.01em; }
   .cue-sub { font-size: 13px; color: #888885; margin-top: 6px; }
-
   .timer-bar { height: 6px; background: rgba(0,0,0,0.08); border-radius: 3px; margin-bottom: 1rem; overflow: hidden; }
   .timer-fill { height: 100%; width: 0%; border-radius: 3px; background: #1D9E75; transition: width 0.1s linear; }
-
   .btn-row { display: flex; gap: 10px; margin-bottom: 1rem; }
-  .btn {
-    flex: 1; padding: 14px;
-    border: 0.5px solid rgba(0,0,0,0.18);
-    border-radius: 10px;
-    background: #fff;
-    font-size: 16px; font-weight: 500;
-    color: #1a1a18;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .btn { flex: 1; padding: 14px; border: 0.5px solid rgba(0,0,0,0.18); border-radius: 10px; background: #fff; font-size: 16px; font-weight: 500; color: #1a1a18; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .btn:active { transform: scale(0.97); background: #f0f0ed; }
   .btn.go { background: #1D9E75; border-color: #1D9E75; color: #fff; }
   .btn.go:active { background: #0F6E56; }
   .btn.go.active { background: #A32D2D; border-color: #A32D2D; }
   .btn.go.active:active { background: #791F1F; }
-
   .card { background: #fff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; }
   .card h2 { font-size: 11px; font-weight: 600; color: #888885; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
   .row { display: flex; align-items: center; gap: 10px; margin-bottom: 0.75rem; }
   .row:last-child { margin-bottom: 0; }
   .row label { font-size: 14px; color: #1a1a18; min-width: 120px; }
   .row .val { font-size: 14px; font-weight: 500; min-width: 46px; text-align: right; color: #1a1a18; }
-
-  input[type=range] {
-    flex: 1;
-    -webkit-appearance: none;
-    height: 4px;
-    background: rgba(0,0,0,0.12);
-    border-radius: 2px;
-    outline: none;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: #1D9E75;
-    cursor: pointer;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-  }
-
-  select {
-    flex: 1; padding: 8px 10px;
-    border-radius: 8px;
-    border: 0.5px solid rgba(0,0,0,0.18);
-    background: #fff;
-    color: #1a1a18;
-    font-size: 14px;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
+  input[type=range] { flex: 1; -webkit-appearance: none; height: 4px; background: rgba(0,0,0,0.12); border-radius: 2px; outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #1D9E75; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+  select { flex: 1; padding: 8px 10px; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.18); background: #fff; color: #1a1a18; font-size: 14px; -webkit-appearance: none; appearance: none; }
   .phase-info { font-size: 12px; color: #888885; text-align: center; margin-top: -0.5rem; margin-bottom: 0.75rem; }
-
-  .test-btn {
-    width: 100%; padding: 10px;
-    border: 0.5px solid rgba(0,0,0,0.18);
-    border-radius: 8px;
-    background: #f5f5f2;
-    font-size: 14px; color: #1a1a18;
-    cursor: pointer; margin-top: 0.5rem;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .test-btn { width: 100%; padding: 10px; border: 0.5px solid rgba(0,0,0,0.18); border-radius: 8px; background: #f5f5f2; font-size: 14px; color: #1a1a18; cursor: pointer; margin-top: 0.5rem; -webkit-tap-highlight-color: transparent; }
   .test-btn:active { background: #e8e8e4; }
-
   .instructions { background: #EAF3DE; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
   .instructions p { font-size: 13px; color: #3B6D11; line-height: 1.6; }
   .instructions strong { font-weight: 600; }
-
   @media (prefers-color-scheme: dark) {
     body { background: #1c1c1a; color: #f0f0ed; }
     .stat, .status-box, .card, .btn { background: #2a2a27; border-color: rgba(255,255,255,0.1); }
@@ -166,7 +103,7 @@
     <div class="row">
       <label>Pause duration</label>
       <input type="range" id="pauseDur" min="0.5" max="3" step="0.25" value="1" oninput="updateSliders()">
-      <span class="val" id="pauseVal">1s</span>
+      <span class="val" id="pauseVal">1.0s</span>
     </div>
     <div class="row">
       <label>Pause randomness</label>
@@ -216,6 +153,20 @@
     </div>
     <button class="test-btn" onclick="testVoice()">▶ Test voice cues</button>
   </div>
+
+  <div class="card">
+    <h2>Voice selection</h2>
+    <p style="font-size:13px; color:#888885; margin-bottom:0.75rem; line-height:1.5;">Every voice installed on your device is listed here. Pick one and tap Test to hear it.</p>
+    <div class="row">
+      <label>Choose voice</label>
+      <select id="voicePicker" onchange="onVoicePicked()">
+        <option value="">Loading voices…</option>
+      </select>
+    </div>
+    <div id="voiceDetail" style="font-size:12px; color:#888885; margin-top:-0.5rem; margin-bottom:0.75rem; min-height:16px; padding-left:2px;"></div>
+    <button class="test-btn" onclick="testSelectedVoice()">▶ Test selected voice</button>
+  </div>
+
 </div>
 
 <script>
@@ -228,17 +179,80 @@ let swings = 0;
 let pauseTotal = 0;
 let fillStart = null;
 let fillDuration = 0;
+let selectedVoice = null;
+let allVoices = [];
+
+function populateVoicePicker() {
+  allVoices = window.speechSynthesis.getVoices();
+  if (!allVoices.length) return;
+  const picker = document.getElementById('voicePicker');
+  picker.innerHTML = '';
+  const sorted = [...allVoices].sort((a, b) => {
+    const aEn = a.lang.startsWith('en') ? 0 : 1;
+    const bEn = b.lang.startsWith('en') ? 0 : 1;
+    if (aEn !== bEn) return aEn - bEn;
+    return a.name.localeCompare(b.name);
+  });
+  sorted.forEach((v, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = v.name + ' (' + v.lang + ')';
+    picker.appendChild(opt);
+  });
+  const preferred = ['Serena', 'Martha', 'Kate', 'Daniel'];
+  let bestIdx = -1;
+  for (const name of preferred) {
+    const match = sorted.findIndex(v => v.name === name);
+    if (match !== -1) { bestIdx = match; break; }
+  }
+  if (bestIdx === -1) bestIdx = sorted.findIndex(v => v.lang === 'en-GB' || v.lang === 'en_GB');
+  if (bestIdx === -1) bestIdx = 0;
+  picker.selectedIndex = bestIdx;
+  selectedVoice = sorted[bestIdx];
+  updateVoiceDetail(sorted[bestIdx]);
+}
+
+function onVoicePicked() {
+  const picker = document.getElementById('voicePicker');
+  const sorted = [...allVoices].sort((a, b) => {
+    const aEn = a.lang.startsWith('en') ? 0 : 1;
+    const bEn = b.lang.startsWith('en') ? 0 : 1;
+    if (aEn !== bEn) return aEn - bEn;
+    return a.name.localeCompare(b.name);
+  });
+  selectedVoice = sorted[picker.selectedIndex];
+  updateVoiceDetail(selectedVoice);
+}
+
+function updateVoiceDetail(v) {
+  if (!v) return;
+  const local = v.localService ? 'On-device · high quality' : 'Network voice';
+  document.getElementById('voiceDetail').textContent = v.lang + ' · ' + local;
+}
+
+function testSelectedVoice() {
+  if (!selectedVoice) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance('Back… pause… swing');
+  u.voice = selectedVoice;
+  u.rate = parseFloat(document.getElementById('voiceRate').value);
+  u.volume = parseFloat(document.getElementById('voiceVol').value);
+  window.speechSynthesis.speak(u);
+}
 
 function speak(text) {
-  if (!('speechSynthesis' in window)) {
-    alert('Speech not supported on this browser. Try Chrome or Safari.');
-    return;
-  }
+  if (!('speechSynthesis' in window)) { alert('Speech not supported. Try Safari.'); return; }
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.rate = parseFloat(document.getElementById('voiceRate').value);
   u.volume = parseFloat(document.getElementById('voiceVol').value);
+  if (selectedVoice) u.voice = selectedVoice;
   window.speechSynthesis.speak(u);
+}
+
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => populateVoicePicker();
+  populateVoicePicker();
 }
 
 function updateSliders() {
@@ -321,14 +335,13 @@ function doDownswing() {
 
 function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
-function toggleSession() {
-  running ? stopSession() : startSession();
-}
+function toggleSession() { running ? stopSession() : startSession(); }
 
 function startSession() {
-  // iOS requires speech to be triggered from a user gesture — prime it here
   if ('speechSynthesis' in window) {
+    populateVoicePicker();
     const primer = new SpeechSynthesisUtterance('');
+    if (selectedVoice) primer.voice = selectedVoice;
     window.speechSynthesis.speak(primer);
   }
   running = true;
@@ -375,6 +388,5 @@ function testVoice() {
 
 updateSliders();
 </script>
-
-
-</body></html>
+</body>
+</html>
