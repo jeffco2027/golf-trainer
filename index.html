@@ -9,12 +9,7 @@
 <title>Golf Pause Trainer</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #f5f5f2;
-    color: #1a1a18;
-    min-height: 100vh;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f2; color: #1a1a18; min-height: 100vh; }
   .app { padding: 1.25rem; max-width: 480px; margin: 0 auto; padding-bottom: 2rem; }
   h1 { font-size: 22px; font-weight: 600; color: #1a1a18; margin-bottom: 2px; }
   .sub { font-size: 14px; color: #6b6b67; margin-bottom: 1.25rem; }
@@ -44,6 +39,11 @@
   input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #1D9E75; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
   select { flex: 1; padding: 8px 10px; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.18); background: #fff; color: #1a1a18; font-size: 14px; -webkit-appearance: none; appearance: none; }
   .phase-info { font-size: 12px; color: #888885; text-align: center; margin-top: -0.5rem; margin-bottom: 0.75rem; }
+  .marker-row { display: flex; align-items: center; gap: 8px; margin: -4px 0 10px 0; }
+  .marker-line { flex: 1; height: 1px; background: #1D9E75; opacity: 0.4; }
+  .marker-label { font-size: 11px; color: #1D9E75; font-weight: 600; white-space: nowrap; }
+  .preset-btn { width: 100%; padding: 11px; border: 1.5px solid #1D9E75; border-radius: 8px; background: #EAF3DE; font-size: 14px; font-weight: 600; color: #0F6E56; cursor: pointer; margin-top: 0.75rem; -webkit-tap-highlight-color: transparent; }
+  .preset-btn:active { background: #c0dd97; }
   .test-btn { width: 100%; padding: 10px; border: 0.5px solid rgba(0,0,0,0.18); border-radius: 8px; background: #f5f5f2; font-size: 14px; color: #1a1a18; cursor: pointer; margin-top: 0.5rem; -webkit-tap-highlight-color: transparent; }
   .test-btn:active { background: #e8e8e4; }
   .instructions { background: #EAF3DE; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
@@ -62,6 +62,10 @@
     .test-btn:active { background: #3d3d39; }
     .instructions { background: #1e3010; }
     .instructions p { color: #97C459; }
+    .marker-label { color: #5DCAA5; }
+    .marker-line { background: #5DCAA5; }
+    .preset-btn { background: #1e3010; color: #97C459; border-color: #5DCAA5; }
+    .preset-btn:active { background: #27500A; }
   }
 </style>
 </head>
@@ -100,16 +104,20 @@
       <span class="val" id="backMinVal">5s</span>
     </div>
     <p class="phase-info" id="intervalDesc">Prompts every 5 – 8s (random)</p>
+    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">⛳ 21/7 target: 6s</span></div>
     <div class="row">
       <label>Pause duration</label>
       <input type="range" id="pauseDur" min="0.5" max="3" step="0.25" value="1" oninput="updateSliders()">
       <span class="val" id="pauseVal">1.0s</span>
     </div>
+    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">⛳ 21/7 target: 0.5s</span></div>
     <div class="row">
       <label>Pause randomness</label>
       <input type="range" id="pauseRand" min="0" max="1" step="0.25" value="0.5" oninput="updateSliders()">
       <span class="val" id="pauseRandVal">±0.5s</span>
     </div>
+    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">⛳ 21/7 target: ±0.25s</span></div>
+    <button class="preset-btn" onclick="loadTempo21()">⛳ Load 21/7 tempo settings</button>
   </div>
 
   <div class="card">
@@ -146,6 +154,7 @@
       <input type="range" id="voiceRate" min="0.7" max="1.4" step="0.1" value="1.0" oninput="updateSliders()">
       <span class="val" id="voiceRateVal">1.0×</span>
     </div>
+    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">⛳ 21/7 target: 1.1×</span></div>
     <div class="row">
       <label>Volume</label>
       <input type="range" id="voiceVol" min="0.2" max="1" step="0.1" value="0.9" oninput="updateSliders()">
@@ -166,21 +175,12 @@
     <div id="voiceDetail" style="font-size:12px; color:#888885; margin-top:-0.5rem; margin-bottom:0.75rem; min-height:16px; padding-left:2px;"></div>
     <button class="test-btn" onclick="testSelectedVoice()">▶ Test selected voice</button>
   </div>
-
 </div>
 
 <script>
-let running = false;
-let phaseTimer = null;
-let fillAnim = null;
-let sessionTimer = null;
-let sessionSec = 0;
-let swings = 0;
-let pauseTotal = 0;
-let fillStart = null;
-let fillDuration = 0;
-let selectedVoice = null;
-let allVoices = [];
+let running = false, phaseTimer = null, fillAnim = null, sessionTimer = null;
+let sessionSec = 0, swings = 0, pauseTotal = 0, fillStart = null, fillDuration = 0;
+let selectedVoice = null, allVoices = [];
 
 function populateVoicePicker() {
   allVoices = window.speechSynthesis.getVoices();
@@ -188,23 +188,14 @@ function populateVoicePicker() {
   const picker = document.getElementById('voicePicker');
   picker.innerHTML = '';
   const sorted = [...allVoices].sort((a, b) => {
-    const aEn = a.lang.startsWith('en') ? 0 : 1;
-    const bEn = b.lang.startsWith('en') ? 0 : 1;
+    const aEn = a.lang.startsWith('en') ? 0 : 1, bEn = b.lang.startsWith('en') ? 0 : 1;
     if (aEn !== bEn) return aEn - bEn;
     return a.name.localeCompare(b.name);
   });
-  sorted.forEach((v, i) => {
-    const opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = v.name + ' (' + v.lang + ')';
-    picker.appendChild(opt);
-  });
+  sorted.forEach((v, i) => { const o = document.createElement('option'); o.value = i; o.textContent = v.name + ' (' + v.lang + ')'; picker.appendChild(o); });
   const preferred = ['Serena', 'Martha', 'Kate', 'Daniel'];
   let bestIdx = -1;
-  for (const name of preferred) {
-    const match = sorted.findIndex(v => v.name === name);
-    if (match !== -1) { bestIdx = match; break; }
-  }
+  for (const name of preferred) { const m = sorted.findIndex(v => v.name === name); if (m !== -1) { bestIdx = m; break; } }
   if (bestIdx === -1) bestIdx = sorted.findIndex(v => v.lang === 'en-GB' || v.lang === 'en_GB');
   if (bestIdx === -1) bestIdx = 0;
   picker.selectedIndex = bestIdx;
@@ -214,20 +205,14 @@ function populateVoicePicker() {
 
 function onVoicePicked() {
   const picker = document.getElementById('voicePicker');
-  const sorted = [...allVoices].sort((a, b) => {
-    const aEn = a.lang.startsWith('en') ? 0 : 1;
-    const bEn = b.lang.startsWith('en') ? 0 : 1;
-    if (aEn !== bEn) return aEn - bEn;
-    return a.name.localeCompare(b.name);
-  });
+  const sorted = [...allVoices].sort((a, b) => { const aEn = a.lang.startsWith('en') ? 0 : 1, bEn = b.lang.startsWith('en') ? 0 : 1; if (aEn !== bEn) return aEn - bEn; return a.name.localeCompare(b.name); });
   selectedVoice = sorted[picker.selectedIndex];
   updateVoiceDetail(selectedVoice);
 }
 
 function updateVoiceDetail(v) {
   if (!v) return;
-  const local = v.localService ? 'On-device · high quality' : 'Network voice';
-  document.getElementById('voiceDetail').textContent = v.lang + ' · ' + local;
+  document.getElementById('voiceDetail').textContent = v.lang + ' · ' + (v.localService ? 'On-device · high quality' : 'Network voice');
 }
 
 function testSelectedVoice() {
@@ -250,9 +235,18 @@ function speak(text) {
   window.speechSynthesis.speak(u);
 }
 
-if ('speechSynthesis' in window) {
-  window.speechSynthesis.onvoiceschanged = () => populateVoicePicker();
-  populateVoicePicker();
+if ('speechSynthesis' in window) { window.speechSynthesis.onvoiceschanged = () => populateVoicePicker(); populateVoicePicker(); }
+
+function loadTempo21() {
+  document.getElementById('backMin').value = 6;
+  document.getElementById('pauseDur').value = 0.5;
+  document.getElementById('pauseRand').value = 0.25;
+  document.getElementById('voiceRate').value = 1.1;
+  updateSliders();
+  const btn = document.querySelector('.preset-btn');
+  const orig = btn.textContent;
+  btn.textContent = '✓ 21/7 settings loaded!';
+  setTimeout(() => btn.textContent = orig, 2000);
 }
 
 function updateSliders() {
@@ -267,24 +261,14 @@ function updateSliders() {
   document.getElementById('voiceVolVal').textContent = Math.round(parseFloat(document.getElementById('voiceVol').value) * 100) + '%';
 }
 
-function setDisplay(label, sub, color) {
-  document.getElementById('cueLabel').textContent = label;
-  document.getElementById('cueSub').textContent = sub;
-  document.getElementById('cueLabel').style.color = color || '#1a1a18';
-}
+function setDisplay(label, sub, color) { document.getElementById('cueLabel').textContent = label; document.getElementById('cueSub').textContent = sub; document.getElementById('cueLabel').style.color = color || '#1a1a18'; }
 
 function animateFill(duration, color) {
   clearInterval(fillAnim);
   const fill = document.getElementById('timerFill');
-  fill.style.background = color || '#1D9E75';
-  fill.style.width = '0%';
-  fillStart = Date.now();
-  fillDuration = duration;
-  fillAnim = setInterval(() => {
-    const pct = Math.min(100, ((Date.now() - fillStart) / fillDuration) * 100);
-    fill.style.width = pct + '%';
-    if (pct >= 100) clearInterval(fillAnim);
-  }, 50);
+  fill.style.background = color || '#1D9E75'; fill.style.width = '0%';
+  fillStart = Date.now(); fillDuration = duration;
+  fillAnim = setInterval(() => { const pct = Math.min(100, ((Date.now() - fillStart) / fillDuration) * 100); fill.style.width = pct + '%'; if (pct >= 100) clearInterval(fillAnim); }, 50);
 }
 
 function rand(min, max) { return min + Math.random() * (max - min); }
@@ -292,8 +276,7 @@ function rand(min, max) { return min + Math.random() * (max - min); }
 function scheduleNext() {
   if (!running) return;
   const bMin = parseFloat(document.getElementById('backMin').value);
-  const bMax = bMin + 3;
-  const waitSec = rand(bMin, bMax);
+  const waitSec = rand(bMin, bMin + 3);
   setDisplay('Ready', 'Waiting… address the ball', '#888885');
   animateFill(waitSec * 1000, '#1D9E75');
   phaseTimer = setTimeout(() => doBackswing(), waitSec * 1000);
@@ -303,8 +286,7 @@ function doBackswing() {
   if (!running) return;
   const cue = document.getElementById('backCue').value;
   setDisplay(cap(cue), 'Start your backswing', '#0F6E56');
-  speak(cue);
-  animateFill(1200, '#1D9E75');
+  speak(cue); animateFill(1200, '#1D9E75');
   phaseTimer = setTimeout(() => doPause(), 1200);
 }
 
@@ -316,8 +298,7 @@ function doPause() {
   pauseTotal += pauseSec;
   const cue = document.getElementById('pauseCue').value;
   setDisplay(cap(cue), 'Top of swing — hold it!', '#BA7517');
-  speak(cue);
-  animateFill(pauseSec * 1000, '#EF9F27');
+  speak(cue); animateFill(pauseSec * 1000, '#EF9F27');
   phaseTimer = setTimeout(() => doDownswing(), pauseSec * 1000);
 }
 
@@ -334,7 +315,6 @@ function doDownswing() {
 }
 
 function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
-
 function toggleSession() { running ? stopSession() : startSession(); }
 
 function startSession() {
@@ -347,20 +327,12 @@ function startSession() {
   running = true;
   document.getElementById('startBtn').textContent = 'Stop';
   document.getElementById('startBtn').classList.add('active');
-  sessionTimer = setInterval(() => {
-    sessionSec++;
-    const m = Math.floor(sessionSec / 60);
-    const s = sessionSec % 60;
-    document.getElementById('sessionMin').textContent = m + ':' + (s < 10 ? '0' : '') + s;
-  }, 1000);
+  sessionTimer = setInterval(() => { sessionSec++; const m = Math.floor(sessionSec / 60), s = sessionSec % 60; document.getElementById('sessionMin').textContent = m + ':' + (s < 10 ? '0' : '') + s; }, 1000);
   scheduleNext();
 }
 
 function stopSession() {
-  running = false;
-  clearTimeout(phaseTimer);
-  clearInterval(fillAnim);
-  clearInterval(sessionTimer);
+  running = false; clearTimeout(phaseTimer); clearInterval(fillAnim); clearInterval(sessionTimer);
   window.speechSynthesis && window.speechSynthesis.cancel();
   document.getElementById('startBtn').textContent = 'Start';
   document.getElementById('startBtn').classList.remove('active');
@@ -369,8 +341,7 @@ function stopSession() {
 }
 
 function resetStats() {
-  stopSession();
-  swings = 0; pauseTotal = 0; sessionSec = 0;
+  stopSession(); swings = 0; pauseTotal = 0; sessionSec = 0;
   document.getElementById('swingCount').textContent = '0';
   document.getElementById('avgPause').textContent = '—';
   document.getElementById('sessionMin').textContent = '0:00';
@@ -378,12 +349,8 @@ function resetStats() {
 }
 
 function testVoice() {
-  const b = document.getElementById('backCue').value;
-  const p = document.getElementById('pauseCue').value;
-  const d = document.getElementById('downCue').value;
-  speak(b);
-  setTimeout(() => speak(p), 1300);
-  setTimeout(() => speak(d), 2400);
+  const b = document.getElementById('backCue').value, p = document.getElementById('pauseCue').value, d = document.getElementById('downCue').value;
+  speak(b); setTimeout(() => speak(p), 1300); setTimeout(() => speak(d), 2400);
 }
 
 updateSliders();
