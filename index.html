@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)file:///C:/Users/cj/Downloads/golf_pause_trainer.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Golf Trainer">
+<title>Golf Pause Trainer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f5f5f2;
+    color: #1a1a18;
+    min-height: 100vh;
+  }
+  .app { padding: 1.25rem; max-width: 480px; margin: 0 auto; padding-bottom: 2rem; }
+  h1 { font-size: 22px; font-weight: 600; color: #1a1a18; margin-bottom: 2px; }
+  .sub { font-size: 14px; color: #6b6b67; margin-bottom: 1.25rem; }
+
+  .stat-row { display: flex; gap: 10px; margin-bottom: 1rem; }
+  .stat { flex: 1; background: #fff; border-radius: 10px; border: 0.5px solid rgba(0,0,0,0.12); padding: 0.75rem; text-align: center; }
+  .stat .n { font-size: 22px; font-weight: 600; color: #1a1a18; }
+  .stat .l { font-size: 11px; color: #888885; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .status-box {
+    background: #fff;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+  }
+  .cue-label { font-size: 38px; font-weight: 600; color: #1a1a18; letter-spacing: 0.01em; }
+  .cue-sub { font-size: 13px; color: #888885; margin-top: 6px; }
+
+  .timer-bar { height: 6px; background: rgba(0,0,0,0.08); border-radius: 3px; margin-bottom: 1rem; overflow: hidden; }
+  .timer-fill { height: 100%; width: 0%; border-radius: 3px; background: #1D9E75; transition: width 0.1s linear; }
+
+  .btn-row { display: flex; gap: 10px; margin-bottom: 1rem; }
+  .btn {
+    flex: 1; padding: 14px;
+    border: 0.5px solid rgba(0,0,0,0.18);
+    border-radius: 10px;
+    background: #fff;
+    font-size: 16px; font-weight: 500;
+    color: #1a1a18;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:active { transform: scale(0.97); background: #f0f0ed; }
+  .btn.go { background: #1D9E75; border-color: #1D9E75; color: #fff; }
+  .btn.go:active { background: #0F6E56; }
+  .btn.go.active { background: #A32D2D; border-color: #A32D2D; }
+  .btn.go.active:active { background: #791F1F; }
+
+  .card { background: #fff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; }
+  .card h2 { font-size: 11px; font-weight: 600; color: #888885; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .row { display: flex; align-items: center; gap: 10px; margin-bottom: 0.75rem; }
+  .row:last-child { margin-bottom: 0; }
+  .row label { font-size: 14px; color: #1a1a18; min-width: 120px; }
+  .row .val { font-size: 14px; font-weight: 500; min-width: 46px; text-align: right; color: #1a1a18; }
+
+  input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 4px;
+    background: rgba(0,0,0,0.12);
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: #1D9E75;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+
+  select {
+    flex: 1; padding: 8px 10px;
+    border-radius: 8px;
+    border: 0.5px solid rgba(0,0,0,0.18);
+    background: #fff;
+    color: #1a1a18;
+    font-size: 14px;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .phase-info { font-size: 12px; color: #888885; text-align: center; margin-top: -0.5rem; margin-bottom: 0.75rem; }
+
+  .test-btn {
+    width: 100%; padding: 10px;
+    border: 0.5px solid rgba(0,0,0,0.18);
+    border-radius: 8px;
+    background: #f5f5f2;
+    font-size: 14px; color: #1a1a18;
+    cursor: pointer; margin-top: 0.5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .test-btn:active { background: #e8e8e4; }
+
+  .instructions { background: #EAF3DE; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
+  .instructions p { font-size: 13px; color: #3B6D11; line-height: 1.6; }
+  .instructions strong { font-weight: 600; }
+
+  @media (prefers-color-scheme: dark) {
+    body { background: #1c1c1a; color: #f0f0ed; }
+    .stat, .status-box, .card, .btn { background: #2a2a27; border-color: rgba(255,255,255,0.1); }
+    .stat .n, .cue-label, .row label, select { color: #f0f0ed; }
+    .stat .l, .sub, .cue-sub, .card h2, .phase-info { color: #888885; }
+    .btn { color: #f0f0ed; }
+    .btn:active { background: #3a3a36; }
+    input[type=range] { background: rgba(255,255,255,0.15); }
+    select { background: #2a2a27; border-color: rgba(255,255,255,0.15); }
+    .test-btn { background: #333330; color: #f0f0ed; border-color: rgba(255,255,255,0.1); }
+    .test-btn:active { background: #3d3d39; }
+    .instructions { background: #1e3010; }
+    .instructions p { color: #97C459; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>⛳ Golf pause trainer</h1>
+  <p class="sub">Verbal cadence cues — pause at the top drill</p>
+
+  <div class="instructions">
+    <p><strong>How to use:</strong> Put on your earbuds, press Start, and address the ball. When you hear the backswing cue, start your turn. When you hear the pause cue, hold at the top. When you hear the downswing cue, fire from your lower body. Timing is randomized so you can't anticipate it.</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n" id="swingCount">0</div><div class="l">swings</div></div>
+    <div class="stat"><div class="n" id="avgPause">—</div><div class="l">avg pause</div></div>
+    <div class="stat"><div class="n" id="sessionMin">0:00</div><div class="l">session</div></div>
+  </div>
+
+  <div class="status-box">
+    <div class="cue-label" id="cueLabel">Ready</div>
+    <div class="cue-sub" id="cueSub">Press Start to begin</div>
+  </div>
+
+  <div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div>
+
+  <div class="btn-row">
+    <button class="btn go" id="startBtn" onclick="toggleSession()">Start</button>
+    <button class="btn" onclick="resetStats()">Reset</button>
+  </div>
+
+  <div class="card">
+    <h2>Timing</h2>
+    <div class="row">
+      <label>Interval (min)</label>
+      <input type="range" id="backMin" min="3" max="12" step="0.5" value="5" oninput="updateSliders()">
+      <span class="val" id="backMinVal">5s</span>
+    </div>
+    <p class="phase-info" id="intervalDesc">Prompts every 5 – 8s (random)</p>
+    <div class="row">
+      <label>Pause duration</label>
+      <input type="range" id="pauseDur" min="0.5" max="3" step="0.25" value="1" oninput="updateSliders()">
+      <span class="val" id="pauseVal">1s</span>
+    </div>
+    <div class="row">
+      <label>Pause randomness</label>
+      <input type="range" id="pauseRand" min="0" max="1" step="0.25" value="0.5" oninput="updateSliders()">
+      <span class="val" id="pauseRandVal">±0.5s</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Voice cues</h2>
+    <div class="row">
+      <label>Backswing</label>
+      <select id="backCue">
+        <option value="back">Back</option>
+        <option value="load">Load</option>
+        <option value="turn">Turn</option>
+        <option value="coil">Coil</option>
+      </select>
+    </div>
+    <div class="row">
+      <label>Pause</label>
+      <select id="pauseCue">
+        <option value="pause">Pause</option>
+        <option value="wait">Wait</option>
+        <option value="hold">Hold</option>
+        <option value="set">Set</option>
+      </select>
+    </div>
+    <div class="row">
+      <label>Downswing</label>
+      <select id="downCue">
+        <option value="swing">Swing</option>
+        <option value="fire">Fire</option>
+        <option value="drive">Drive</option>
+        <option value="go">Go</option>
+      </select>
+    </div>
+    <div class="row">
+      <label>Voice speed</label>
+      <input type="range" id="voiceRate" min="0.7" max="1.4" step="0.1" value="1.0" oninput="updateSliders()">
+      <span class="val" id="voiceRateVal">1.0×</span>
+    </div>
+    <div class="row">
+      <label>Volume</label>
+      <input type="range" id="voiceVol" min="0.2" max="1" step="0.1" value="0.9" oninput="updateSliders()">
+      <span class="val" id="voiceVolVal">90%</span>
+    </div>
+    <button class="test-btn" onclick="testVoice()">▶ Test voice cues</button>
+  </div>
+</div>
+
+<script>
+let running = false;
+let phaseTimer = null;
+let fillAnim = null;
+let sessionTimer = null;
+let sessionSec = 0;
+let swings = 0;
+let pauseTotal = 0;
+let fillStart = null;
+let fillDuration = 0;
+
+function speak(text) {
+  if (!('speechSynthesis' in window)) {
+    alert('Speech not supported on this browser. Try Chrome or Safari.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = parseFloat(document.getElementById('voiceRate').value);
+  u.volume = parseFloat(document.getElementById('voiceVol').value);
+  window.speechSynthesis.speak(u);
+}
+
+function updateSliders() {
+  const bMin = parseFloat(document.getElementById('backMin').value);
+  const bMax = Math.min(bMin + 3, 18);
+  document.getElementById('backMinVal').textContent = bMin + 's';
+  document.getElementById('intervalDesc').textContent = 'Prompts every ' + bMin + ' – ' + bMax + 's (random)';
+  document.getElementById('pauseVal').textContent = parseFloat(document.getElementById('pauseDur').value).toFixed(2).replace(/\.?0+$/, '') + 's';
+  const pr = parseFloat(document.getElementById('pauseRand').value);
+  document.getElementById('pauseRandVal').textContent = '±' + pr.toFixed(2).replace(/\.?0+$/, '') + 's';
+  document.getElementById('voiceRateVal').textContent = parseFloat(document.getElementById('voiceRate').value).toFixed(1) + '×';
+  document.getElementById('voiceVolVal').textContent = Math.round(parseFloat(document.getElementById('voiceVol').value) * 100) + '%';
+}
+
+function setDisplay(label, sub, color) {
+  document.getElementById('cueLabel').textContent = label;
+  document.getElementById('cueSub').textContent = sub;
+  document.getElementById('cueLabel').style.color = color || '#1a1a18';
+}
+
+function animateFill(duration, color) {
+  clearInterval(fillAnim);
+  const fill = document.getElementById('timerFill');
+  fill.style.background = color || '#1D9E75';
+  fill.style.width = '0%';
+  fillStart = Date.now();
+  fillDuration = duration;
+  fillAnim = setInterval(() => {
+    const pct = Math.min(100, ((Date.now() - fillStart) / fillDuration) * 100);
+    fill.style.width = pct + '%';
+    if (pct >= 100) clearInterval(fillAnim);
+  }, 50);
+}
+
+function rand(min, max) { return min + Math.random() * (max - min); }
+
+function scheduleNext() {
+  if (!running) return;
+  const bMin = parseFloat(document.getElementById('backMin').value);
+  const bMax = bMin + 3;
+  const waitSec = rand(bMin, bMax);
+  setDisplay('Ready', 'Waiting… address the ball', '#888885');
+  animateFill(waitSec * 1000, '#1D9E75');
+  phaseTimer = setTimeout(() => doBackswing(), waitSec * 1000);
+}
+
+function doBackswing() {
+  if (!running) return;
+  const cue = document.getElementById('backCue').value;
+  setDisplay(cap(cue), 'Start your backswing', '#0F6E56');
+  speak(cue);
+  animateFill(1200, '#1D9E75');
+  phaseTimer = setTimeout(() => doPause(), 1200);
+}
+
+function doPause() {
+  if (!running) return;
+  const base = parseFloat(document.getElementById('pauseDur').value);
+  const r = parseFloat(document.getElementById('pauseRand').value);
+  const pauseSec = Math.max(0.3, base + rand(-r, r));
+  pauseTotal += pauseSec;
+  const cue = document.getElementById('pauseCue').value;
+  setDisplay(cap(cue), 'Top of swing — hold it!', '#BA7517');
+  speak(cue);
+  animateFill(pauseSec * 1000, '#EF9F27');
+  phaseTimer = setTimeout(() => doDownswing(), pauseSec * 1000);
+}
+
+function doDownswing() {
+  if (!running) return;
+  const cue = document.getElementById('downCue').value;
+  swings++;
+  setDisplay(cap(cue), 'Lower body leads — fire!', '#A32D2D');
+  speak(cue);
+  document.getElementById('swingCount').textContent = swings;
+  document.getElementById('avgPause').textContent = (pauseTotal / swings).toFixed(1) + 's';
+  animateFill(700, '#E24B4A');
+  phaseTimer = setTimeout(() => scheduleNext(), 900);
+}
+
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function toggleSession() {
+  running ? stopSession() : startSession();
+}
+
+function startSession() {
+  // iOS requires speech to be triggered from a user gesture — prime it here
+  if ('speechSynthesis' in window) {
+    const primer = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(primer);
+  }
+  running = true;
+  document.getElementById('startBtn').textContent = 'Stop';
+  document.getElementById('startBtn').classList.add('active');
+  sessionTimer = setInterval(() => {
+    sessionSec++;
+    const m = Math.floor(sessionSec / 60);
+    const s = sessionSec % 60;
+    document.getElementById('sessionMin').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }, 1000);
+  scheduleNext();
+}
+
+function stopSession() {
+  running = false;
+  clearTimeout(phaseTimer);
+  clearInterval(fillAnim);
+  clearInterval(sessionTimer);
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  document.getElementById('startBtn').textContent = 'Start';
+  document.getElementById('startBtn').classList.remove('active');
+  document.getElementById('timerFill').style.width = '0%';
+  setDisplay('Stopped', 'Session paused', '#888885');
+}
+
+function resetStats() {
+  stopSession();
+  swings = 0; pauseTotal = 0; sessionSec = 0;
+  document.getElementById('swingCount').textContent = '0';
+  document.getElementById('avgPause').textContent = '—';
+  document.getElementById('sessionMin').textContent = '0:00';
+  setDisplay('Ready', 'Press Start to begin', '#1a1a18');
+}
+
+function testVoice() {
+  const b = document.getElementById('backCue').value;
+  const p = document.getElementById('pauseCue').value;
+  const d = document.getElementById('downCue').value;
+  speak(b);
+  setTimeout(() => speak(p), 1300);
+  setTimeout(() => speak(d), 2400);
+}
+
+updateSliders();
+</script>
+
+
+</body></html>
