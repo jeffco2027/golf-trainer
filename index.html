@@ -52,6 +52,13 @@
   .prog-load-btn:active { background: #c0dd97; }
   .prog-load-btn.goal-btn { background: #1D9E75; color: #fff; border-color: #1D9E75; }
   .prog-load-btn.goal-btn:active { background: #0F6E56; }
+  .logo-header { display: flex; align-items: center; gap: 16px; margin-bottom: 1rem; }
+  .logo-header img { height: 110px; width: auto; flex-shrink: 0; }
+  .logo-text { display: flex; flex-direction: column; justify-content: center; }
+  .logo-title { font-size: 30px; font-weight: 800; color: #1D9E75; letter-spacing: 0.5px; line-height: 1; }
+  .logo-sub { font-size: 11px; font-weight: 300; color: #0D5C40; letter-spacing: 5px; margin-top: 5px; opacity: 0.78; }
+  .logo-rule { height: 0.7px; background: #0D5C40; opacity: 0.2; margin: 5px 0; }
+  .logo-tagline { font-size: 10px; font-style: italic; color: #0D5C40; opacity: 0.45; }
   @media (prefers-color-scheme: dark) {
     body { background: #1c1c1a; color: #f0f0ed; }
     .stat, .status-box, .card, .btn { background: #2a2a27; border-color: rgba(255,255,255,0.1); }
@@ -77,37 +84,20 @@
 <body>
 <div class="app">
 
-  <!-- LOGO -->
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 190" style="width:100%;max-width:420px;display:block;margin:0 auto 0.75rem auto;">
-    <g transform="translate(82,146)" fill="#1D9E75">
-      <ellipse cx="7" cy="-72" rx="13" ry="14"/>
-      <path d="M-9,-58 C-14,-50-14,-34-14,-20 C-14,-8-12,-2-10,4 L14,4 C16,-2 18,-8 18,-20 C18,-34 18,-50 13,-58 C8,-62 0,-63-3,-62 C-6,-61-7,-60-9,-58Z"/>
-      <path d="M-12,4 L14,4 L12,16 L-10,16Z"/>
-      <path d="M-10,16 C-11,28-11,44-11,58 C-11,68-10,76-10,82 L-22,82 C-22,76-22,68-22,58 C-22,44-22,28-20,16Z"/>
-      <path d="M-22,78 Q-22,84-18,85 L6,84 Q9,84 8,80 L-22,80Z"/>
-      <path d="M 2,16 C 3,28 6,44 10,56 C 13,66 14,74 13,82 L 23,82 C 24,72 22,62 19,50 C 16,38 14,26 14,16Z"/>
-      <path d="M13,78 Q12,85 16,85 L30,79 Q32,77 30,74 L14,77Z"/>
-      <path d="M-6,-62 C-10,-58-14,-50-18,-40 C-22,-30-22,-18-18,-8 C-12,-14-4,-18 2,-22 C8,-26 14,-30 18,-38 C14,-48 8,-58 4,-64 C0,-68-3,-66-6,-62Z"/>
-      <path d="M12,-60 C16,-54 20,-44 22,-34 C24,-24 22,-14 20,-8 C26,-14 32,-22 34,-32 C36,-42 34,-52 30,-60 C26,-66 22,-68 18,-66 C15,-64 13,-62 12,-60Z"/>
-      <ellipse cx="18" cy="-8" rx="7" ry="8"/>
-      <line x1="18" y1="-14" x2="-14" y2="-58" stroke="#0D5C40" stroke-width="3.5" stroke-linecap="round"/>
-      <ellipse cx="-15" cy="-60" rx="9" ry="6" transform="rotate(-25,-15,-60)" fill="#0D5C40"/>
-      <path d="M-28,-62 A18,18 0 0,1 0,-60" fill="none" stroke="#1D9E75" stroke-width="2.2" stroke-linecap="round" opacity="0.38"/>
-      <path d="M-34,-63 A26,26 0 0,1 4,-60" fill="none" stroke="#1D9E75" stroke-width="1.4" stroke-linecap="round" opacity="0.18"/>
-      <ellipse cx="0" cy="84" rx="30" ry="3.5" opacity="0.11"/>
-      <!-- cap -->
-      <path d="M-4,-84 C-10,-84-16,-80-16,-74 C-16,-68-10,-64-4,-64 C2,-64 8,-68 12,-72 C14,-76 12,-82 6,-84 C4,-85 0,-85-4,-84Z"/>
-      <path d="M10,-72 L28,-70 Q31,-70 30,-66 L10,-66Z"/>
-    </g>
-    <text x="152" y="88" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="36" letter-spacing="0.5" fill="#1D9E75">GOLF PAUSE</text>
-    <line x1="152" y1="96" x2="415" y2="96" stroke="#0D5C40" stroke-width="0.7" opacity="0.22"/>
-    <text x="154" y="113" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif" font-weight="300" font-size="12" letter-spacing="5.5" fill="#0D5C40" opacity="0.78">TRAINER</text>
-    <text x="154" y="134" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif" font-style="italic" font-size="10.5" letter-spacing="0.2" fill="#0D5C40" opacity="0.42">pause at the top  ·  lower body leads</text>
-  </svg>
+  <!-- LOGO: photo silhouette + text -->
+  <div class="logo-header">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAGsCAYAAAA3hB72AAAABmJLR0QA/wD/AP+gvaeTAAAgAElEQVR4nO29eXyU5bn//77vZ/bJZCaZyb5AEiCEQNj3VUBkEwSkuIBLa9VTW7e2p/VXT/d6Wk97rMdTq9bWpS6tuGARXEDZBAIJkJiQkD0h+zrJLJl97vv3B5F9kpDM5HnA+Xz68Yc8M/N8riuvua77uo2ICOcxJuI0Lf2f49Qs/R8Dau/+nJMkqq6qIjQ0lFtvvZW1a9cCIISpuxH9D2Jqw4PZqCwBAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI1LTA0LTIxVDE4OjI4OjI3KzAwOjAwEaKjsgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNS0wNC0yMVQxODoyODoyNyswMDowMGD/Gw4AAAAASUVORK5CYII=" alt="Golf Pause Trainer" id="logoImg"/>
+    <div class="logo-text">
+      <div class="logo-title">GOLF PAUSE</div>
+      <div class="logo-rule"></div>
+      <div class="logo-sub">TRAINER</div>
+      <div class="logo-tagline">pause at the top &middot; lower body leads</div>
+    </div>
+  </div>
 
   <div class="stat-row">
     <div class="stat"><div class="n" id="swingCount">0</div><div class="l">swings</div></div>
-    <div class="stat"><div class="n" id="avgPause">—</div><div class="l">avg pause</div></div>
+    <div class="stat"><div class="n" id="avgPause">&mdash;</div><div class="l">avg pause</div></div>
     <div class="stat"><div class="n" id="sessionMin">0:00</div><div class="l">session</div></div>
   </div>
 
@@ -128,11 +118,11 @@
     <div class="row">
       <label>Select week</label>
       <select id="weekPicker" onchange="onWeekPicked()">
-        <option value="1">Week 1 — Feel the pause</option>
-        <option value="2">Week 2 — Shorten and commit</option>
-        <option value="3">Week 3 — Approach the tempo</option>
-        <option value="4">Week 4 — Lock it in</option>
-        <option value="5">Week 5 — 21/7 tempo ⛳</option>
+        <option value="1">Week 1 &mdash; Feel the pause</option>
+        <option value="2">Week 2 &mdash; Shorten and commit</option>
+        <option value="3">Week 3 &mdash; Approach the tempo</option>
+        <option value="4">Week 4 &mdash; Lock it in</option>
+        <option value="5">Week 5 &mdash; 21/7 tempo &#9971;</option>
       </select>
     </div>
     <div class="prog-detail" id="weekDetail">
@@ -145,12 +135,12 @@
   <div class="card">
     <h2>Timing</h2>
     <div class="row"><label>Interval (min)</label><input type="range" id="backMin" min="3" max="12" step="0.5" value="5" oninput="updateSliders()"><span class="val" id="backMinVal">5s</span></div>
-    <p class="phase-info" id="intervalDesc">Prompts every 5 – 8s (random)</p>
-    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">⛳ 21/7 target: 6s</span></div>
+    <p class="phase-info" id="intervalDesc">Prompts every 5 &ndash; 8s (random)</p>
+    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">&#9971; 21/7 target: 6s</span></div>
     <div class="row"><label>Pause duration</label><input type="range" id="pauseDur" min="0.5" max="3" step="0.25" value="1" oninput="updateSliders()"><span class="val" id="pauseVal">1.0s</span></div>
-    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">⛳ 21/7 target: 0.5s</span></div>
-    <div class="row"><label>Pause randomness</label><input type="range" id="pauseRand" min="0" max="1" step="0.25" value="0.5" oninput="updateSliders()"><span class="val" id="pauseRandVal">±0.5s</span></div>
-    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">⛳ 21/7 target: ±0.25s</span></div>
+    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">&#9971; 21/7 target: 0.5s</span></div>
+    <div class="row"><label>Pause randomness</label><input type="range" id="pauseRand" min="0" max="1" step="0.25" value="0.5" oninput="updateSliders()"><span class="val" id="pauseRandVal">&plusmn;0.5s</span></div>
+    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">&#9971; 21/7 target: &plusmn;0.25s</span></div>
   </div>
 
   <div class="card">
@@ -158,18 +148,18 @@
     <div class="row"><label>Backswing</label><select id="backCue"><option value="back">Back</option><option value="load">Load</option><option value="turn">Turn</option><option value="coil">Coil</option></select></div>
     <div class="row"><label>Pause</label><select id="pauseCue"><option value="pause">Pause</option><option value="wait">Wait</option><option value="hold">Hold</option><option value="set">Set</option></select></div>
     <div class="row"><label>Downswing</label><select id="downCue"><option value="swing">Swing</option><option value="fire">Fire</option><option value="drive">Drive</option><option value="go">Go</option></select></div>
-    <div class="row"><label>Voice speed</label><input type="range" id="voiceRate" min="0.7" max="1.4" step="0.1" value="1.0" oninput="updateSliders()"><span class="val" id="voiceRateVal">1.0×</span></div>
-    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">⛳ 21/7 target: 1.1×</span></div>
+    <div class="row"><label>Voice speed</label><input type="range" id="voiceRate" min="0.7" max="1.4" step="0.1" value="1.0" oninput="updateSliders()"><span class="val" id="voiceRateVal">1.0&times;</span></div>
+    <div class="marker-row"><span class="marker-line"></span><span class="marker-label">&#9971; 21/7 target: 1.1&times;</span></div>
     <div class="row"><label>Volume</label><input type="range" id="voiceVol" min="0.2" max="1" step="0.1" value="0.9" oninput="updateSliders()"><span class="val" id="voiceVolVal">90%</span></div>
-    <button class="test-btn" onclick="testVoice()">▶ Test voice cues</button>
+    <button class="test-btn" onclick="testVoice()">&#9654; Test voice cues</button>
   </div>
 
   <div class="card">
     <h2>Voice selection</h2>
     <p style="font-size:13px;color:#888885;margin-bottom:0.75rem;line-height:1.5;">Every voice installed on your device is listed here. Pick one and tap Test to hear it.</p>
-    <div class="row"><label>Choose voice</label><select id="voicePicker" onchange="onVoicePicked()"><option value="">Loading voices…</option></select></div>
+    <div class="row"><label>Choose voice</label><select id="voicePicker" onchange="onVoicePicked()"><option value="">Loading voices&hellip;</option></select></div>
     <div id="voiceDetail" style="font-size:12px;color:#888885;margin-top:-0.5rem;margin-bottom:0.75rem;min-height:16px;padding-left:2px;"></div>
-    <button class="test-btn" onclick="testSelectedVoice()">▶ Test selected voice</button>
+    <button class="test-btn" onclick="testSelectedVoice()">&#9654; Test selected voice</button>
   </div>
 </div>
 
@@ -178,12 +168,19 @@ let running=false,phaseTimer=null,fillAnim=null,sessionTimer=null;
 let sessionSec=0,swings=0,pauseTotal=0,fillStart=null,fillDuration=0;
 let selectedVoice=null,allVoices=[];
 
+// Load real silhouette image
+(function(){
+  const img=document.getElementById('logoImg');
+  const realSrc='LOGO_BASE64_PLACEHOLDER';
+  if(realSrc&&realSrc.length>100)img.src='data:image/png;base64,'+realSrc;
+})();
+
 const WEEKS={
-  1:{interval:7,pause:2.0,rand:1.0,rate:0.9,phrase:'"Just notice the transition — every swing is different"'},
-  2:{interval:7,pause:1.25,rand:0.75,rate:1.0,phrase:'"Cut the pause in half — load the lower body before firing"'},
-  3:{interval:6,pause:0.75,rand:0.5,rate:1.0,phrase:'"Getting close — build consistency in the transition"'},
-  4:{interval:6,pause:0.5,rand:0.35,rate:1.1,phrase:'"Almost there — consolidate before the final step"'},
-  5:{interval:6,pause:0.5,rand:0.25,rate:1.1,phrase:'"Tour tempo — 3:1 ratio, lower body leads every time"'}
+  1:{interval:7,pause:2.0,rand:1.0,rate:0.9,phrase:'"Just notice the transition \u2014 every swing is different"'},
+  2:{interval:7,pause:1.25,rand:0.75,rate:1.0,phrase:'"Cut the pause in half \u2014 load the lower body before firing"'},
+  3:{interval:6,pause:0.75,rand:0.5,rate:1.0,phrase:'"Getting close \u2014 build consistency in the transition"'},
+  4:{interval:6,pause:0.5,rand:0.35,rate:1.1,phrase:'"Almost there \u2014 consolidate before the final step"'},
+  5:{interval:6,pause:0.5,rand:0.25,rate:1.1,phrase:'"Tour tempo \u2014 3:1 ratio, lower body leads every time"'}
 };
 
 function onWeekPicked(){
@@ -193,11 +190,11 @@ function onWeekPicked(){
   const s=document.getElementById('weekSettings');
   s.innerHTML='<div class="prog-setting"><div class="prog-setting-label">Interval</div><div class="prog-setting-val">'+w.interval+'s</div></div>'
     +'<div class="prog-setting"><div class="prog-setting-label">Pause</div><div class="prog-setting-val">'+w.pause+'s</div></div>'
-    +'<div class="prog-setting"><div class="prog-setting-label">Randomness</div><div class="prog-setting-val">±'+w.rand+'s</div></div>'
-    +'<div class="prog-setting"><div class="prog-setting-label">Voice speed</div><div class="prog-setting-val">'+w.rate+'×</div></div>';
+    +'<div class="prog-setting"><div class="prog-setting-label">Randomness</div><div class="prog-setting-val">\u00b1'+w.rand+'s</div></div>'
+    +'<div class="prog-setting"><div class="prog-setting-label">Voice speed</div><div class="prog-setting-val">'+w.rate+'\u00d7</div></div>';
   const btn=document.getElementById('weekLoadBtn');
   const isGoal=n===5;
-  btn.textContent=isGoal?'⛳ Load 21/7 tempo settings':'Load week '+n+' settings';
+  btn.textContent=isGoal?'\u26f3 Load 21/7 tempo settings':'Load week '+n+' settings';
   if(isGoal){btn.classList.add('goal-btn');}else{btn.classList.remove('goal-btn');}
 }
 
@@ -211,7 +208,7 @@ function loadSelectedWeek(){
   updateSliders();
   const btn=document.getElementById('weekLoadBtn');
   const orig=btn.textContent;
-  btn.textContent='✓ Loaded!';
+  btn.textContent='\u2713 Loaded!';
   setTimeout(()=>{btn.textContent=orig;},1800);
 }
 
@@ -245,13 +242,13 @@ function onVoicePicked(){
 
 function updateVoiceDetail(v){
   if(!v)return;
-  document.getElementById('voiceDetail').textContent=v.lang+' · '+(v.localService?'On-device · high quality':'Network voice');
+  document.getElementById('voiceDetail').textContent=v.lang+' \u00b7 '+(v.localService?'On-device \u00b7 high quality':'Network voice');
 }
 
 function testSelectedVoice(){
   if(!selectedVoice)return;
   window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance('Back… pause… swing');
+  const u=new SpeechSynthesisUtterance('Back\u2026 pause\u2026 swing');
   u.voice=selectedVoice;
   u.rate=parseFloat(document.getElementById('voiceRate').value);
   u.volume=parseFloat(document.getElementById('voiceVol').value);
@@ -274,11 +271,11 @@ function updateSliders(){
   const bMin=parseFloat(document.getElementById('backMin').value);
   const bMax=Math.min(bMin+3,18);
   document.getElementById('backMinVal').textContent=bMin+'s';
-  document.getElementById('intervalDesc').textContent='Prompts every '+bMin+' – '+bMax+'s (random)';
+  document.getElementById('intervalDesc').textContent='Prompts every '+bMin+' \u2013 '+bMax+'s (random)';
   document.getElementById('pauseVal').textContent=parseFloat(document.getElementById('pauseDur').value).toFixed(2).replace(/\.?0+$/,'')+'s';
   const pr=parseFloat(document.getElementById('pauseRand').value);
-  document.getElementById('pauseRandVal').textContent='±'+pr.toFixed(2).replace(/\.?0+$/,'')+'s';
-  document.getElementById('voiceRateVal').textContent=parseFloat(document.getElementById('voiceRate').value).toFixed(1)+'×';
+  document.getElementById('pauseRandVal').textContent='\u00b1'+pr.toFixed(2).replace(/\.?0+$/,'')+'s';
+  document.getElementById('voiceRateVal').textContent=parseFloat(document.getElementById('voiceRate').value).toFixed(1)+'\u00d7';
   document.getElementById('voiceVolVal').textContent=Math.round(parseFloat(document.getElementById('voiceVol').value)*100)+'%';
 }
 
@@ -298,7 +295,7 @@ function scheduleNext(){
   if(!running)return;
   const bMin=parseFloat(document.getElementById('backMin').value);
   const waitSec=rand(bMin,bMin+3);
-  setDisplay('Ready','Waiting… address the ball','#888885');
+  setDisplay('Ready','Waiting\u2026 address the ball','#888885');
   animateFill(waitSec*1000,'#1D9E75');
   phaseTimer=setTimeout(()=>doBackswing(),waitSec*1000);
 }
@@ -318,7 +315,7 @@ function doPause(){
   const pauseSec=Math.max(0.3,base+rand(-r,r));
   pauseTotal+=pauseSec;
   const cue=document.getElementById('pauseCue').value;
-  setDisplay(cap(cue),'Top of swing — hold it!','#BA7517');
+  setDisplay(cap(cue),'Top of swing \u2014 hold it!','#BA7517');
   speak(cue);animateFill(pauseSec*1000,'#EF9F27');
   phaseTimer=setTimeout(()=>doDownswing(),pauseSec*1000);
 }
@@ -327,7 +324,7 @@ function doDownswing(){
   if(!running)return;
   const cue=document.getElementById('downCue').value;
   swings++;
-  setDisplay(cap(cue),'Lower body leads — fire!','#A32D2D');
+  setDisplay(cap(cue),'Lower body leads \u2014 fire!','#A32D2D');
   speak(cue);
   document.getElementById('swingCount').textContent=swings;
   document.getElementById('avgPause').textContent=(pauseTotal/swings).toFixed(1)+'s';
@@ -364,7 +361,7 @@ function stopSession(){
 function resetStats(){
   stopSession();swings=0;pauseTotal=0;sessionSec=0;
   document.getElementById('swingCount').textContent='0';
-  document.getElementById('avgPause').textContent='—';
+  document.getElementById('avgPause').textContent='\u2014';
   document.getElementById('sessionMin').textContent='0:00';
   setDisplay('Ready','Press Start to begin','#1a1a18');
 }
