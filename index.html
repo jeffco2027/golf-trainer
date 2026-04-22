@@ -70,7 +70,7 @@
 <div class="app">
 
   <div class="logo-hero">
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAACMCAYAAAA3FFrOAAAZBklEQVR42u19a5RcV3Xmt/c5996qfkgWsmxL6pZsLIOtNo9YsRMIg238CMmEgcB0Y+PEjISkBhLjYEmWCZmprjVkBqOHx0PiTAtpZAmTWat7ZU0GQxgIxlKws2KDzWBGMjGyZHW3JAtjSVZ3dVXde8/e8+Peale/pGpU1UFec/9oqdR1+3xnv7+zzxYw8cnlGG+UZ9H2DW9du3Jl5czMzMrMzMzK7Ozs6szMzMrMzMzK7OzsyuzsysrMzMzKzMzMyuzs7MrMzMzK7OzsyszMzMrMzMzK7OzKyszMzMrMzMzK7OzsyszMzMrMzMzK7OzKyszMzMrMzMzK7OzsyszMzMrMzMzK7OzKyszMzMrMzMzK7OzsyszMzMrMzMzK7OzKyszMzMrMzMzKyszMzMrMzMzKzMzMyuzs7MrMzMzK7OzsyszMzMrMzMzK7OzKyszMzMrMzMzKyszMzMrMzMzKzMzMyuzs7MrMzMzK7OzsyszMzMrMzMzK7OzKyszMzMrMzMzKyszMzMrMzMzKzMzMyuzs7MrMzMzK7Ozsys" alt="Golf Pause Trainer"/>
+    <img src="golfer_green.png" alt="Golf Pause Trainer"/>
     <div class="logo-title">GOLF PAUSE</div>
     <div class="logo-rule"></div>
     <div class="logo-sub">TRAINER</div>
@@ -132,11 +132,11 @@ let running=false,phaseTimer=null,fillAnim=null,sessionTimer=null;
 let sessionSec=0,swings=0,pauseTotal=0,fillStart=null,fillDuration=0;
 
 const WEEKS={
-  1:{interval:7,pause:2.0,rand:1.0,rate:0.9,phrase:'"Just notice the transition \u2014 every swing is different"'},
-  2:{interval:7,pause:1.25,rand:0.75,rate:1.0,phrase:'"Cut the pause in half \u2014 load the lower body before firing"'},
-  3:{interval:6,pause:0.75,rand:0.5,rate:1.0,phrase:'"Getting close \u2014 build consistency in the transition"'},
-  4:{interval:6,pause:0.5,rand:0.35,rate:1.1,phrase:'"Almost there \u2014 consolidate before the final step"'},
-  5:{interval:6,pause:0.5,rand:0.25,rate:1.1,phrase:'"Tour tempo \u2014 3:1 ratio, lower body leads every time"'}
+  1:{interval:7,pause:2.0,rand:1.0,phrase:'"Just notice the transition \u2014 every swing is different"'},
+  2:{interval:7,pause:1.25,rand:0.75,phrase:'"Cut the pause in half \u2014 load the lower body before firing"'},
+  3:{interval:6,pause:0.75,rand:0.5,phrase:'"Getting close \u2014 build consistency in the transition"'},
+  4:{interval:6,pause:0.5,rand:0.35,phrase:'"Almost there \u2014 consolidate before the final step"'},
+  5:{interval:6,pause:0.5,rand:0.25,phrase:'"Tour tempo \u2014 3:1 ratio, lower body leads every time"'}
 };
 
 function onWeekPicked(){
@@ -146,8 +146,7 @@ function onWeekPicked(){
   const s=document.getElementById('weekSettings');
   s.innerHTML='<div class="prog-setting"><div class="prog-setting-label">Interval</div><div class="prog-setting-val">'+w.interval+'s</div></div>'
     +'<div class="prog-setting"><div class="prog-setting-label">Pause</div><div class="prog-setting-val">'+w.pause+'s</div></div>'
-    +'<div class="prog-setting"><div class="prog-setting-label">Randomness</div><div class="prog-setting-val">\u00b1'+w.rand+'s</div></div>'
-    +'<div class="prog-setting"><div class="prog-setting-label">Voice speed</div><div class="prog-setting-val">'+w.rate+'\u00d7</div></div>';
+    +'<div class="prog-setting"><div class="prog-setting-label">Randomness</div><div class="prog-setting-val">\u00b1'+w.rand+'s</div></div>';
   const btn=document.getElementById('weekLoadBtn');
   const isGoal=n===5;
   btn.textContent=isGoal?'\u26f3 Load 21/7 tempo settings':'Load week '+n+' settings';
@@ -188,15 +187,11 @@ function makeClap(ctx,pitch,decay){
   source.connect(filter);filter.connect(gain);gain.connect(ctx.destination);
   source.start(ctx.currentTime);source.stop(ctx.currentTime+decay+0.02);
 }
-function playBackClick(){makeClap(getAudioCtx(),1000,0.14);}
-function playPauseClick(){makeClap(getAudioCtx(),1000,0.14);}
-function playSwingClick(){makeClap(getAudioCtx(),1000,0.14);}
-
 function speak(text){
   const t=text.toLowerCase();
-  if(t==='back'||t==='load'||t==='turn'||t==='coil')playBackClick();
-  else if(t==='pause'||t==='hold'||t==='wait'||t==='set')playPauseClick();
-  else playSwingClick();
+  if(t==='back')makeClap(getAudioCtx(),1000,0.14);
+  else if(t==='pause')makeClap(getAudioCtx(),1000,0.14);
+  else makeClap(getAudioCtx(),1000,0.14);
 }
 
 function updateSliders(){
